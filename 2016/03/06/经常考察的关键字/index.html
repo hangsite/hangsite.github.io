@@ -1,0 +1,656 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="人只有无限努力" />
+
+
+
+  <meta name="keywords" content="c++," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hang'blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="sizeof
+单目运算符（例如i++），计算发生在编译时刻，所以可以当作常量表达式，括号内的运算会被忽略。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++第一季之经常考察的关键字">
+<meta property="og:url" content="http://yoursite.com/2016/03/06/经常考察的关键字/index.html">
+<meta property="og:site_name" content="Hang'blog">
+<meta property="og:description" content="sizeof
+单目运算符（例如i++），计算发生在编译时刻，所以可以当作常量表达式，括号内的运算会被忽略。">
+<meta property="og:updated_time" content="2016-03-06T09:29:22.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++第一季之经常考察的关键字">
+<meta name="twitter:description" content="sizeof
+单目运算符（例如i++），计算发生在编译时刻，所以可以当作常量表达式，括号内的运算会被忽略。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> c++第一季之经常考察的关键字 | Hang'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Hang'blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              c++第一季之经常考察的关键字
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-03-06T16:41:34+08:00" content="2016-03-06 16:41:34">
+            2016-03-06 16:41:34
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="sizeof">sizeof</h2><blockquote>
+<p>单目运算符（例如i++），计算发生在编译时刻，所以可以当作常量表达式，括号内的运算会被忽略。<br><a id="more"></a></p>
+<h3 id="sizeof使用场合。">sizeof使用场合。</h3></blockquote>
+<ol>
+<li><p>sizeof操作符的一个主要用途是与存储分配和I/O系统那样的例程进行通信。例如：　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>　*<span class="built_in">malloc</span>（<span class="keyword">size_t</span>　size）</span><br><span class="line"><span class="keyword">size_t</span>　fread(<span class="keyword">void</span>　*　ptr,<span class="keyword">size_t</span>　size,<span class="keyword">size_t</span>　nmemb,FILE　*　stream)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用它可以看看一类型的对象在内存中所占的单元字节。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>*　<span class="built_in">memset</span>（<span class="keyword">void</span>　*　s,<span class="keyword">int</span>　c,<span class="keyword">sizeof</span>(s)）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在动态分配一对象时,可以让系统知道要分配多少内存。</p>
+</li>
+<li>便于一些类型的扩充,在windows中就有很多结构内型就有一个专用的字段是用来放该类型的字节大小。</li>
+<li>由于操作数的字节数在实现时可能出现变化，建议在涉及到操作数字节大小时用sizeof来代替常量计算。</li>
+<li>如果操作数是函数中的数组形参或函数类型的形参，sizeof给出其指针的大小。</li>
+</ol>
+<h3 id="sizeof深入理解。">sizeof深入理解。</h3><ol>
+<li>sizeof操作符的结果类型是size_t，它在头文件中typedef为unsigned　int类型。该类型保证能容纳实现所建立的最大对象的字节大小。</li>
+<li>sizeof是算符，strlen是函数。</li>
+<li>sizeof可以用类型做参数，<strong>strlen只能用char*做参数，且必须是以’’\0’’结尾的</strong>。sizeof还可以用函数做参数，比如：<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">short f<span class="list">()</span><span class="comment">;</span></span><br><span class="line">printf<span class="list">(<span class="string">"%d\n"</span>, sizeof<span class="list">(<span class="keyword">f</span><span class="list">()</span>)</span>)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>输出的结果是sizeof(short)，即2。</p>
+<ol>
+<li>数组做sizeof的参数不退化，传递给strlen就退化为指针了。</li>
+<li><p>大部分编译程序 在编译的时候就把sizeof计算过了 是类型或是变量的长度这就是sizeof(x)可以用来定义数组维数的原因</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> <span class="keyword">str</span>[<span class="number">20</span>]=<span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">int</span> a=strlen(<span class="keyword">str</span>); <span class="comment">//a=10;</span></span><br><span class="line"><span class="keyword">int</span> b=<span class="keyword">sizeof</span>(<span class="keyword">str</span>); <span class="comment">//而b=20;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>strlen的结果要在运行的时候才能计算出来，时用来计算字符串的长度，不是类型占内存的大小。</p>
+</li>
+<li>sizeof后如果是类型必须加括弧，如果是变量名可以不加括弧。这是因为sizeof是个操作符不是个函数。</li>
+<li>当适用了于一个结构类型时或变量， sizeof 返回实际的大小， 当适用一静态地空间数组， sizeof 归还全部数组的尺 寸。 sizeof 操作符不能返回动态地被分派了的数组或外部的数组的尺寸</li>
+<li>数组作为参数传给函数时传的是指针而不是数组，传递的是数组的首地址，如：<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span>(<span class="title">char</span></span> [<span class="number">8</span>])</span><br><span class="line"><span class="function"><span class="keyword">fun</span>(<span class="title">char</span></span> [])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>都等价于 fun(char *) 在C++里传递数组永远都是传递指向数组首元素的指针，编译器不知道数组的大小如果想在函数内知道数组的大小， 需要这样做：进入函数后用memcpy拷贝出来，长度由另一个形参传进去<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fun(unsiged <span class="keyword">char</span> *p1, <span class="keyword">int</span> len)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>* buf = <span class="keyword">new</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>[len+<span class="number">1</span>]</span><br><span class="line"><span class="built_in">memcpy</span>(buf, p1, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有关内容见： C++ PRIMER</p>
+<ol>
+<li>计算结构变量的大小就必须讨论数据对齐问题。为了CPU存取的速度最快（这同CPU取数操作有关，详细的介绍可以参考一些计算机原理方面的书），C++在处理数据时经常把结构变量中的成员的大小按照4或8的倍数计算，这就叫数据对齐（data alignment）。这样做可能会浪费一些内存，但理论上速度快了。当然这样的设置会在读写一些别的应用程序生成的数据文件或交换数据时带来不便。MS VC++中的对齐设定，有时候sizeof得到的与实际不等。一般在VC++中加上#pragma pack(n)的设定即可.或者如果要按字节存储，而不进行数据对齐，可以在Options对话框中修改Advanced compiler页中的Data alignment为按字节对齐。</li>
+<li>sizeof操作符不能用于函数类型，不完全类型或位字段。不完全类型指具有未知存储大小的数据类型，如未知存储大小的数组类型、未知内容的结构或联合类型、void类型等。如sizeof(max)若此时变量max定义为int　max(),sizeof(char_v)　若此时char_v定义为char　char_v　[MAX]且MAX未知，sizeof(void)都不是正确形式.</li>
+</ol>
+<h4 id="第一个例子">第一个例子</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>* ss = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果 <span class="number">4</span> ＝＝＝》ss是指向字符串常量的字符指针</span><br><span class="line"><span class="keyword">sizeof</span>(*ss) 结果 <span class="number">1</span> ＝＝＝》*ss是第一个字符</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> ss[] = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果 <span class="number">11</span> ＝＝＝》ss是数组，计算到\<span class="number">0</span>位置，因此是<span class="number">10</span>＋<span class="number">1</span></span><br><span class="line"><span class="keyword">sizeof</span>(*ss) 结果 <span class="number">1</span> ＝＝＝》*ss是第一个字符</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> ss[<span class="number">100</span>] = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果是<span class="number">100</span> ＝＝＝》ss表示在内存中的大小 <span class="number">100</span>×<span class="number">1</span></span><br><span class="line">strlen(ss) 结果是<span class="number">10</span> ＝＝＝》strlen是个函数内部实现是用一个循环计算到\<span class="number">0</span>为止之前</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> ss[<span class="number">100</span>] = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果 <span class="number">400</span> ＝＝＝》ss表示再内存中的大小 <span class="number">100</span>×<span class="number">4</span></span><br><span class="line">strlen(ss) 错误 ＝＝＝》strlen的参数只能是<span class="keyword">char</span>* 且必须是以<span class="string">''</span>\<span class="number">0</span><span class="string">''</span>结尾的</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> q[]=<span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">char</span> p[]=<span class="string">"a\n"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(q),<span class="keyword">sizeof</span>(p),strlen(q),strlen(p);</span><br><span class="line">结果是 <span class="number">4</span> <span class="number">3</span> <span class="number">3</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="第二个例子">第二个例子</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> X</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">int</span> j;</span><br><span class="line"><span class="keyword">char</span> k;</span><br><span class="line">&#125;;</span><br><span class="line">X x;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(X)&lt;&lt;endl; 结果 <span class="number">12</span> ＝＝＝》内存补齐</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(x)&lt;&lt;endl; 结果 <span class="number">12</span> 同上</span><br></pre></td></tr></table></figure>
+<h4 id="第三个例子">第三个例子</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="value">char</span> szPath<span class="attr_selector">[MAX_PATH]</span></span><br></pre></td></tr></table></figure>
+<p>如果在函数内这样定义，那么sizeof(szPath)将会是MAX_PATH，但是将szPath作为虚参声明时（void fun(char szPath[MAX_PATH])）,sizeof(szPath)却会是4(指针大小).</p>
+<h3 id="sizeof计算的是在栈中分配的内存大小。">sizeof计算的是在栈中分配的内存大小。</h3><ol>
+<li>sizeof不计算static变量占得内存；</li>
+<li>指针的大小一定是4个字节，而不管是什么类型的指针；</li>
+<li>char型占1个字节，int占4个字节，short int占2个字节 long int占4个字节，float占4字节，double占48字节，string占4字节,一个空类占1个字节，单一继承的空类占1个字节，虚继承涉及到虚指针所以占4个字节;</li>
+<li>数组的长度：若指定了数组长度，则不看元素个数，总字节数=数组长度<em>sizeof（元素类型） ,若没有指定长度，则按实际元素个数类确定.<em>*多维数组要乘以维度。</em></em>Ps：若是字符数组，则应考虑末尾的空字符。</li>
+<li>结构体对象的长度<br>在默认情况下，为方便对结构体内元素的访问和管理，当结构体内元素长度小于处理器位数的时候，便以结构体内最长的数据元素的长度为对齐单位，即为其整数倍。若结构体内元素长度大于处理器位数则以处理器位数为单位对齐。</li>
+<li>unsigned影响的只是最高位的意义，数据长度不会改变，所以sizeof（unsigned int）=4 </li>
+<li>自定义类型的sizeof取值等于它的类型原型取sizeof;</li>
+<li>对函数使用sizeof，在编译阶段会被函数的返回值的类型代替;</li>
+<li>sizeof后如果是类型名则必须加括号，如果是变量名可以不加括号，这是因为sizeof是运算符;</li>
+<li>当使用结构类型或者变量时，sizeof返回实际的大小。当使用静态数组时返回数组的全部大小，sizeof不能返回动态数组或者外部数组的尺寸.</li>
+</ol>
+<h3 id="sizeof与strlen的区别？">sizeof与strlen的区别？</h3><ol>
+<li>sizeof的返回值类型为size_t（unsigned int）；</li>
+<li>sizeof是运算符，而strlen是函数；</li>
+<li>sizeof可以用类型做参数，其参数可以是任意类型的或者是变量、函数，而strlen只能用char*做参数，且必须是以’\0’结尾；</li>
+<li>数组作sizeof的参数时不会退化为指针，而传递给strlen是就退化为指针；</li>
+<li>sizeo是编译时的常量，而strlen要到运行时才会计算出来，且是字符串中字符的个数而不是内存大小； </li>
+</ol>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag">#c++</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/13/快速排序/" rel="next">快速排序</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Hang Weiping" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Hang Weiping</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">人只有无限努力</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank">github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof"><span class="nav-number">1.</span> <span class="nav-text">sizeof</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof使用场合。"><span class="nav-number">1.1.</span> <span class="nav-text">sizeof使用场合。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof深入理解。"><span class="nav-number">1.2.</span> <span class="nav-text">sizeof深入理解。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一个例子"><span class="nav-number">1.2.1.</span> <span class="nav-text">第一个例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二个例子"><span class="nav-number">1.2.2.</span> <span class="nav-text">第二个例子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三个例子"><span class="nav-number">1.2.3.</span> <span class="nav-text">第三个例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof计算的是在栈中分配的内存大小。"><span class="nav-number">1.3.</span> <span class="nav-text">sizeof计算的是在栈中分配的内存大小。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof与strlen的区别？"><span class="nav-number">1.4.</span> <span class="nav-text">sizeof与strlen的区别？</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hang Weiping</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="">
+    Next
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

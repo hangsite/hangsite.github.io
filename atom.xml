@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-01T10:33:37.901Z</updated>
+  <updated>2016-03-06T09:29:22.186Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,87 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[c++第一季之经常考察的关键字]]></title>
+    <link href="http://yoursite.com/2016/03/06/%E7%BB%8F%E5%B8%B8%E8%80%83%E5%AF%9F%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/"/>
+    <id>http://yoursite.com/2016/03/06/经常考察的关键字/</id>
+    <published>2016-03-06T08:41:34.000Z</published>
+    <updated>2016-03-06T09:29:22.186Z</updated>
+    <content type="html"><![CDATA[<h2 id="sizeof">sizeof</h2><blockquote>
+<p>单目运算符（例如i++），计算发生在编译时刻，所以可以当作常量表达式，括号内的运算会被忽略。<br><a id="more"></a></p>
+<h3 id="sizeof使用场合。">sizeof使用场合。</h3></blockquote>
+<ol>
+<li><p>sizeof操作符的一个主要用途是与存储分配和I/O系统那样的例程进行通信。例如：　</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>　*<span class="built_in">malloc</span>（<span class="keyword">size_t</span>　size）</span><br><span class="line"><span class="keyword">size_t</span>　fread(<span class="keyword">void</span>　*　ptr,<span class="keyword">size_t</span>　size,<span class="keyword">size_t</span>　nmemb,FILE　*　stream)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用它可以看看一类型的对象在内存中所占的单元字节。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span>*　<span class="built_in">memset</span>（<span class="keyword">void</span>　*　s,<span class="keyword">int</span>　c,<span class="keyword">sizeof</span>(s)）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在动态分配一对象时,可以让系统知道要分配多少内存。</p>
+</li>
+<li>便于一些类型的扩充,在windows中就有很多结构内型就有一个专用的字段是用来放该类型的字节大小。</li>
+<li>由于操作数的字节数在实现时可能出现变化，建议在涉及到操作数字节大小时用sizeof来代替常量计算。</li>
+<li>如果操作数是函数中的数组形参或函数类型的形参，sizeof给出其指针的大小。</li>
+</ol>
+<h3 id="sizeof深入理解。">sizeof深入理解。</h3><ol>
+<li>sizeof操作符的结果类型是size_t，它在头文件中typedef为unsigned　int类型。该类型保证能容纳实现所建立的最大对象的字节大小。</li>
+<li>sizeof是算符，strlen是函数。</li>
+<li>sizeof可以用类型做参数，<strong>strlen只能用char*做参数，且必须是以’’\0’’结尾的</strong>。sizeof还可以用函数做参数，比如：<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">short f<span class="list">()</span><span class="comment">;</span></span><br><span class="line">printf<span class="list">(<span class="string">"%d\n"</span>, sizeof<span class="list">(<span class="keyword">f</span><span class="list">()</span>)</span>)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>输出的结果是sizeof(short)，即2。</p>
+<ol>
+<li>数组做sizeof的参数不退化，传递给strlen就退化为指针了。</li>
+<li><p>大部分编译程序 在编译的时候就把sizeof计算过了 是类型或是变量的长度这就是sizeof(x)可以用来定义数组维数的原因</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> <span class="keyword">str</span>[<span class="number">20</span>]=<span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">int</span> a=strlen(<span class="keyword">str</span>); <span class="comment">//a=10;</span></span><br><span class="line"><span class="keyword">int</span> b=<span class="keyword">sizeof</span>(<span class="keyword">str</span>); <span class="comment">//而b=20;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>strlen的结果要在运行的时候才能计算出来，时用来计算字符串的长度，不是类型占内存的大小。</p>
+</li>
+<li>sizeof后如果是类型必须加括弧，如果是变量名可以不加括弧。这是因为sizeof是个操作符不是个函数。</li>
+<li>当适用了于一个结构类型时或变量， sizeof 返回实际的大小， 当适用一静态地空间数组， sizeof 归还全部数组的尺 寸。 sizeof 操作符不能返回动态地被分派了的数组或外部的数组的尺寸</li>
+<li>数组作为参数传给函数时传的是指针而不是数组，传递的是数组的首地址，如：<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span>(<span class="title">char</span></span> [<span class="number">8</span>])</span><br><span class="line"><span class="function"><span class="keyword">fun</span>(<span class="title">char</span></span> [])</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>都等价于 fun(char *) 在C++里传递数组永远都是传递指向数组首元素的指针，编译器不知道数组的大小如果想在函数内知道数组的大小， 需要这样做：进入函数后用memcpy拷贝出来，长度由另一个形参传进去<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fun(unsiged <span class="keyword">char</span> *p1, <span class="keyword">int</span> len)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span>* buf = <span class="keyword">new</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>[len+<span class="number">1</span>]</span><br><span class="line"><span class="built_in">memcpy</span>(buf, p1, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有关内容见： C++ PRIMER</p>
+<ol>
+<li>计算结构变量的大小就必须讨论数据对齐问题。为了CPU存取的速度最快（这同CPU取数操作有关，详细的介绍可以参考一些计算机原理方面的书），C++在处理数据时经常把结构变量中的成员的大小按照4或8的倍数计算，这就叫数据对齐（data alignment）。这样做可能会浪费一些内存，但理论上速度快了。当然这样的设置会在读写一些别的应用程序生成的数据文件或交换数据时带来不便。MS VC++中的对齐设定，有时候sizeof得到的与实际不等。一般在VC++中加上#pragma pack(n)的设定即可.或者如果要按字节存储，而不进行数据对齐，可以在Options对话框中修改Advanced compiler页中的Data alignment为按字节对齐。</li>
+<li>sizeof操作符不能用于函数类型，不完全类型或位字段。不完全类型指具有未知存储大小的数据类型，如未知存储大小的数组类型、未知内容的结构或联合类型、void类型等。如sizeof(max)若此时变量max定义为int　max(),sizeof(char_v)　若此时char_v定义为char　char_v　[MAX]且MAX未知，sizeof(void)都不是正确形式.</li>
+</ol>
+<h4 id="第一个例子">第一个例子</h4><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>* ss = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果 <span class="number">4</span> ＝＝＝》ss是指向字符串常量的字符指针</span><br><span class="line"><span class="keyword">sizeof</span>(*ss) 结果 <span class="number">1</span> ＝＝＝》*ss是第一个字符</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> ss[] = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果 <span class="number">11</span> ＝＝＝》ss是数组，计算到\<span class="number">0</span>位置，因此是<span class="number">10</span>＋<span class="number">1</span></span><br><span class="line"><span class="keyword">sizeof</span>(*ss) 结果 <span class="number">1</span> ＝＝＝》*ss是第一个字符</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> ss[<span class="number">100</span>] = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果是<span class="number">100</span> ＝＝＝》ss表示在内存中的大小 <span class="number">100</span>×<span class="number">1</span></span><br><span class="line">strlen(ss) 结果是<span class="number">10</span> ＝＝＝》strlen是个函数内部实现是用一个循环计算到\<span class="number">0</span>为止之前</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> ss[<span class="number">100</span>] = <span class="string">"0123456789"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(ss) 结果 <span class="number">400</span> ＝＝＝》ss表示再内存中的大小 <span class="number">100</span>×<span class="number">4</span></span><br><span class="line">strlen(ss) 错误 ＝＝＝》strlen的参数只能是<span class="keyword">char</span>* 且必须是以<span class="string">''</span>\<span class="number">0</span><span class="string">''</span>结尾的</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> q[]=<span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">char</span> p[]=<span class="string">"a\n"</span>;</span><br><span class="line"><span class="keyword">sizeof</span>(q),<span class="keyword">sizeof</span>(p),strlen(q),strlen(p);</span><br><span class="line">结果是 <span class="number">4</span> <span class="number">3</span> <span class="number">3</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="第二个例子">第二个例子</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> X</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">int</span> j;</span><br><span class="line"><span class="keyword">char</span> k;</span><br><span class="line">&#125;;</span><br><span class="line">X x;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(X)&lt;&lt;endl; 结果 <span class="number">12</span> ＝＝＝》内存补齐</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(x)&lt;&lt;endl; 结果 <span class="number">12</span> 同上</span><br></pre></td></tr></table></figure>
+<h4 id="第三个例子">第三个例子</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="value">char</span> szPath<span class="attr_selector">[MAX_PATH]</span></span><br></pre></td></tr></table></figure>
+<p>如果在函数内这样定义，那么sizeof(szPath)将会是MAX_PATH，但是将szPath作为虚参声明时（void fun(char szPath[MAX_PATH])）,sizeof(szPath)却会是4(指针大小).</p>
+<h3 id="sizeof计算的是在栈中分配的内存大小。">sizeof计算的是在栈中分配的内存大小。</h3><ol>
+<li>sizeof不计算static变量占得内存；</li>
+<li>指针的大小一定是4个字节，而不管是什么类型的指针；</li>
+<li>char型占1个字节，int占4个字节，short int占2个字节 long int占4个字节，float占4字节，double占48字节，string占4字节,一个空类占1个字节，单一继承的空类占1个字节，虚继承涉及到虚指针所以占4个字节;</li>
+<li>数组的长度：若指定了数组长度，则不看元素个数，总字节数=数组长度<em>sizeof（元素类型） ,若没有指定长度，则按实际元素个数类确定.<em>*多维数组要乘以维度。</em></em>Ps：若是字符数组，则应考虑末尾的空字符。</li>
+<li>结构体对象的长度<br>在默认情况下，为方便对结构体内元素的访问和管理，当结构体内元素长度小于处理器位数的时候，便以结构体内最长的数据元素的长度为对齐单位，即为其整数倍。若结构体内元素长度大于处理器位数则以处理器位数为单位对齐。</li>
+<li>unsigned影响的只是最高位的意义，数据长度不会改变，所以sizeof（unsigned int）=4 </li>
+<li>自定义类型的sizeof取值等于它的类型原型取sizeof;</li>
+<li>对函数使用sizeof，在编译阶段会被函数的返回值的类型代替;</li>
+<li>sizeof后如果是类型名则必须加括号，如果是变量名可以不加括号，这是因为sizeof是运算符;</li>
+<li>当使用结构类型或者变量时，sizeof返回实际的大小。当使用静态数组时返回数组的全部大小，sizeof不能返回动态数组或者外部数组的尺寸.</li>
+</ol>
+<h3 id="sizeof与strlen的区别？">sizeof与strlen的区别？</h3><ol>
+<li>sizeof的返回值类型为size_t（unsigned int）；</li>
+<li>sizeof是运算符，而strlen是函数；</li>
+<li>sizeof可以用类型做参数，其参数可以是任意类型的或者是变量、函数，而strlen只能用char*做参数，且必须是以’\0’结尾；</li>
+<li>数组作sizeof的参数时不会退化为指针，而传递给strlen是就退化为指针；</li>
+<li>sizeo是编译时的常量，而strlen要到运行时才会计算出来，且是字符串中字符的个数而不是内存大小； </li>
+</ol>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="sizeof">sizeof</h2><blockquote>
+<p>单目运算符（例如i++），计算发生在编译时刻，所以可以当作常量表达式，括号内的运算会被忽略。<br>]]>
+    
+    </summary>
+    
+      <category term="c++" scheme="http://yoursite.com/tags/c/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[快速排序]]></title>
