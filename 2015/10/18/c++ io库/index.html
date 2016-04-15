@@ -1,0 +1,858 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="人只有无限努力" />
+
+
+
+  <meta name="keywords" content="c++," />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hang'blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="一、管理输出缓冲每个输出流都会管理一个输出缓冲区，用来保存程序读写的数据。比如：cout&amp;lt;&amp;lt;Please input a number&amp;lt;&amp;lt;endl;这样文本串可能被立即打印出来，也可能先被操作系统保存到缓冲区，然后再打印。设备的写操作可能是费时的，这样，操作系统就可以将程序的多个输出操作组合成单一的系统级写操作或者单一的设备写操作可带来性能上的很大提升。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++ io库">
+<meta property="og:url" content="http://yoursite.com/2015/10/18/c++ io库/index.html">
+<meta property="og:site_name" content="Hang'blog">
+<meta property="og:description" content="一、管理输出缓冲每个输出流都会管理一个输出缓冲区，用来保存程序读写的数据。比如：cout&amp;lt;&amp;lt;Please input a number&amp;lt;&amp;lt;endl;这样文本串可能被立即打印出来，也可能先被操作系统保存到缓冲区，然后再打印。设备的写操作可能是费时的，这样，操作系统就可以将程序的多个输出操作组合成单一的系统级写操作或者单一的设备写操作可带来性能上的很大提升。">
+<meta property="og:updated_time" content="2016-04-15T11:00:53.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="c++ io库">
+<meta name="twitter:description" content="一、管理输出缓冲每个输出流都会管理一个输出缓冲区，用来保存程序读写的数据。比如：cout&amp;lt;&amp;lt;Please input a number&amp;lt;&amp;lt;endl;这样文本串可能被立即打印出来，也可能先被操作系统保存到缓冲区，然后再打印。设备的写操作可能是费时的，这样，操作系统就可以将程序的多个输出操作组合成单一的系统级写操作或者单一的设备写操作可带来性能上的很大提升。">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> c++ io库 | Hang'blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Hang'blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              c++ io库
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-10-18T19:29:34+08:00" content="2015-10-18 19:29:34">
+            2015-10-18 19:29:34
+          </time>
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="一、管理输出缓冲">一、管理输出缓冲</h1><p>每个输出流都会管理一个输出缓冲区，用来保存程序读写的数据。比如：<br>cout&lt;&lt;Please input a number&lt;&lt;endl;<br>这样文本串可能被立即打印出来，也可能先被操作系统保存到缓冲区，然后再打印。设备的写操作可能是费时的，这样，操作系统就可以将程序的多个输出操作组合成单一的系统级写操作或者单一的设备写操作可带来性能上的很大提升。</p>
+<a id="more"></a>
+<p>  下面总结了导致缓冲刷新的原因：</p>
+<ol>
+<li><p>程序正常结束，作为main函数的return操作的一部分，缓冲刷新被执行。</p>
+</li>
+<li><p>缓冲区满时需要刷新缓冲区之后新的数据才能被继续写入。</p>
+</li>
+<li><p>操纵符endl可以显示刷新缓冲区</p>
+</li>
+<li><p>在每个输出操作之后，可用操纵符unitbuf设置流的内部状态来清空缓冲区。默认情况下对cerr是设置unitbuf的，因此写到cerr的内容都是立即刷新的。</p>
+</li>
+<li><p>一个输出流可能被关联到另一个流。此时，当读写被关联的流时，关联到的流的缓冲区会被刷新。比如，默认情况下cin和cerr都关联到cout，因此，读cin或写cerr都会导致cout的缓冲区被刷新。</p>
+</li>
+</ol>
+<hr>
+<h1 id="二、刷新输出缓冲区">二、刷新输出缓冲区</h1><p>使用操纵符endl可以刷新缓冲区并完成换行工作。类似的flush也能刷新缓冲区，但不输出任何额外字符，不像endl那样还会换行。ends则是向缓冲区插入一个空字符，然后刷新缓冲区。他们的用法和endl一样。</p>
+<p>如果想在每次输出操作后都刷新缓冲区，可以使用unitbuf操纵符来设置流的内部状态清空缓冲区。它告诉流在接下来的每次输出写操作之后都进行一次flush操作，而nounitbuf操纵符则重置流，使其恢复使用正常的系统管理的缓冲区刷新机制：</p>
+<p>cout&lt;&lt;unitbuf;  //现在所有输出操作后都会立即刷新缓冲区<br>cout&lt;&lt;nounitbuf;  //恢复正常的缓冲方式<br>注：如果程序崩溃，输出缓冲区不会被刷新，所有输出数据很可能停留在输出缓冲区等待打印。<br>另外，当输入流被关联到输出流，那么一旦从输入流读取数据，都会先刷新关联的输出流。标准库将cout和cin关联在一起。</p>
+<p>所以当执行：</p>
+<p>cin&gt;&gt;ival;</p>
+<p>时，将导致cout的缓冲区被刷新。这在交互式系统通常应该关联输入流和输出流。即所有输出和用户提示信息都会在读操作之前被打印出来。说道关联输入和输出流，就要说道tie函数，它有两个版本，一个不带参数，返回指向输出流的指针，如果本对象当前关联到一个输出流，则返回这个输出流的指针，如过对象没有关联到流返回空指针。tie还一个版本接受一个指向ostream的指针，将自己关联到次ostream。比如 x.tie(&amp;o)即将流x关联到输出流o 。（&amp;o  这里是对输出流对象o取址）。我们可以将一个istream对象关联到一个ostream对象也可以将一个ostream对象关联到另一个ostream对象。</p>
+<p>cin.tie(&amp;cout);  //标准库中的将cin和cout关联在一起<br>如果想解开流的关联，可以将对象tie到一个空指针上，比如：<br>ostearm *old_tie=cin.tie(nullptr);  //cin不再与其他流关联</p>
+<hr>
+<h1 id="三、文件的输入输出">三、文件的输入输出</h1><h2 id="a-_IO">a. IO</h2><p>头文件fstrem中定义了三个支持文件IO</p>
+<ol>
+<li><p>ifstream 从给定文件读取数据</p>
+</li>
+<li><p>ofstream 向给定文件写入数据</p>
+</li>
+<li><p>fstream 读写给定文件</p>
+</li>
+</ol>
+<p>fstream继承自iostream，所以诸如IO运算符&lt;&lt;  &gt;&gt; cin cout getline等都能适用，另外它还有些新成员来管理与流关联的文件。当然这些时fstream中特有的，可以对fstream ifstream ofstream对象调用。总结如下</p>
+<ol>
+<li><p>fstream  fstrm;       创建一个未绑定的流，fstream是头文件fstream中定义的一个类型</p>
+</li>
+<li><p>fstream fstrm(s);   c创建一个fstream，并打开名为s的文件，s可是string类型或是一个指向C风格的字符串指针，这些构造函数是explict的</p>
+</li>
+<li><p>fstream fstrm(s,mode)  和以上一样，按指定的mode打开文件</p>
+</li>
+</ol>
+<p>fstrm.open(s)    打开名为s的文件，将文件与fstrm绑定，返回void</p>
+<p>fstrm.close()    关闭与fstrm绑定的文件，返回void</p>
+<p>fstrm.is_open()  返回一个bool值，指出绑定文件是否打开</p>
+<h2 id="b-使用文件流对象">b.使用文件流对象</h2><p>  当有需要读写一个文件时，我们可先定义一个文件流对象，并将对象与文件关联绑定。创建文件流对象时，我们可提供文件名（选用），如果提供了文件名open成员函数会被自动调用，比如：</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifstream <span class="keyword">in</span>(ifile);  <span class="comment">//构造一个ifstream并打开给定文件</span></span><br><span class="line">ofstream <span class="keyword">out</span>;    <span class="comment">//这是一个输出文件流但还未关联到任何文件</span></span><br></pre></td></tr></table></figure>
+<p>我们已经知道，通常我们可以将一个派生类对象当做基类对象使用，因此，在需要iostream类型引用或指针的地方，我们也可用对应的fstream来调用。例如，假定输入输出文件名是通过传递给main函数的参数来指定，可以这样写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ifstream <span class="title">input</span><span class="params">(argv[<span class="number">1</span>])</span></span>;  <span class="comment">//打开文件，建立一个文件输入流对象input</span></span><br><span class="line"><span class="function">ofstream <span class="title">output</span><span class="params">(argv[<span class="number">2</span>])</span></span>;   <span class="comment">//打开输出文件，建立一个文件输出流对象output</span></span><br></pre></td></tr></table></figure>
+<p>再举一例：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifstream <span class="keyword">in</span>(ifile);  <span class="comment">//构建一个ifstream并打开给定文件</span></span><br><span class="line">ofstream <span class="keyword">out</span>;   <span class="comment">//构建了一个输出文件流，但没有与任何文件绑定</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">open</span>(ifile+<span class="string">".copy"</span>);  将流对象绑定指定文件并打开</span><br></pre></td></tr></table></figure>
+<p>像这里要是open失败了，failbit会被置位，调用open是有可能失败的，因为调用open时对它进行检测通常是一个好习惯，它和cin用作条件类似，open要是失败，条件会为假，就不会去使用out流了。比如：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(out)</span></span>   <span class="comment">//检查open是否成功，成功了，就可以使用文件了</span></span><br></pre></td></tr></table></figure>
+<p>一旦文件流打开，它就保持了与对应文件的关联，对一个已打开的文件流调用open会失败，并导致failbit被置位。随后任何试图使用文件流的操作都会失败。这和socket 、serial等一样啊。如果你想改变文件流关联的对象，那么必须先关闭当前已关联的文件，关闭成功后再去关联或者打开新的文件，比如：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">in</span>.<span class="built_in">close</span>();          <span class="comment"> //关闭当前关联的文件</span></span><br><span class="line"><span class="operator">in</span>.<span class="built_in">open</span>(ifile+<span class="string">"2"</span>);  打开另一个文件</span><br></pre></td></tr></table></figure>
+<p>一旦open成功，则open会设置流的状态，使得good()为true</p>
+<h2 id="c-自动构造和析构">c.自动构造和析构</h2><p> 任务：由main函数接受要处理的一个文件列表，考虑用循环的方式解决问题，实现如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(quto p=argv+<span class="number">1</span>:p!=argv+argc;++p)&#123;</span><br><span class="line">  <span class="function">ifstream <span class="title">input</span><span class="params">(*p)</span></span>;  <span class="comment">//创建文件输出流并打开文件</span></span><br><span class="line">  <span class="keyword">if</span>(input)&#123;         <span class="comment">//如果创建成功，处理文件</span></span><br><span class="line">      process(input);</span><br><span class="line">  &#125;<span class="keyword">else</span></span><br><span class="line">      <span class="built_in">cerr</span>&lt;&lt;<span class="string">"couldn't open: "</span>&lt;&lt;<span class="built_in">string</span>(*p);</span><br><span class="line">&#125;  <span class="comment">//每次循环后创建的input流对象会离开作用域，自动销毁</span></span><br></pre></td></tr></table></figure>
+<p>上面流对象在每次循环中都将被重新创建和销毁，当一个流对象离开其作用域时，与之关联的文件会自动关闭，即close会被自动调用。 </p>
+<hr>
+<h1 id="四、文件模式">四、文件模式</h1><p>  文件被open时会涉及文件模式，它指出如何来使用文件，总结如下；</p>
+<ol>
+<li>in  以读的方式打开文件 </li>
+<li><p>out  以写得方式打开文件</p>
+</li>
+<li><p>app  每次写操作前均定为到文件末尾</p>
+</li>
+<li><p>ate  打开文件后立即定为到文件末尾</p>
+</li>
+<li><p>trunc  截断文件</p>
+</li>
+<li><p>binary  以二进制方式进行IO<br>相关原则如下：</p>
+</li>
+<li><p>只能对ofstream或fstream对象设定out模式</p>
+</li>
+<li><p>只能对ifstrem或fstream对象设定in模式</p>
+</li>
+<li><p>只有当out也被设定时才能设定trunc模式</p>
+</li>
+<li><p>只要trunc没被设定，就可以设定app模式，在app模式下，即使没有显示指定out模式，文件也总是以输出方式被打开</p>
+</li>
+<li><p>默认情况，即使没有指定trunc，以out模式打开的文件也会被截断，为了保留以out模式打开的文件的内容，必须同时指定app模式，这样只会将数据追加写到文件末尾，或者同时指定in模式，即打开文件同时进行读写操作</p>
+</li>
+<li><p>每个文件流类型都定义了一个默认的文件模式，总结如下：</p>
+</li>
+</ol>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifstream——<span class="keyword">in</span>模式                         ofstream——<span class="keyword">out</span>模式</span><br><span class="line"></span><br><span class="line">fstream—— <span class="keyword">in</span> 和 <span class="keyword">out</span>模式</span><br></pre></td></tr></table></figure>
+<p>需要说明的是以out模式打开文件会丢弃已有的数据，默认情况下，打开一个ofstream时文件的内容会被丢弃，然而阻止这一清空给定文件的好办法就是打开的同时指定app模式。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以下语句，file会被截断</span></span><br><span class="line">ofstream <span class="keyword">out</span>(<span class="string">"file1"</span>);  <span class="comment">//隐含以输出模式打开文件并截断文件</span></span><br><span class="line">ofstream <span class="keyword">out</span><span class="number">2</span>(<span class="string">"file1"</span>,ofstream::<span class="keyword">out</span>); <span class="comment">//隐含地截断文件</span></span><br><span class="line">ofstream <span class="keyword">out</span><span class="number">3</span>(<span class="string">"file1"</span>,ofstream::<span class="keyword">out</span> | ofstream::trunc)</span><br><span class="line"><span class="comment">//为了保留文件内容，我们必须显示指定app模式</span></span><br><span class="line">ofstream <span class="keyword">out</span>(<span class="string">"file"</span>,ofstream::app);  <span class="comment">//隐含为输出模式</span></span><br><span class="line">ofstream <span class="keyword">out</span><span class="number">2</span>(<span class="string">"file"</span>,ofstream::<span class="keyword">out</span> | ofstream::app);</span><br></pre></td></tr></table></figure>
+<p>总结：要想保留被ofstream打开的文件中已有数据的唯一方法就是显示的指定文件模式为in或app模式。<br>每次调用open时都会确定文件模式，对于一个给定的流，每次打开文件时都可以改变其文件模式，例如：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ofstream <span class="keyword">out</span>;   <span class="comment">//未指定文件打开模式</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">open</span>(<span class="string">"file"</span>);  <span class="comment">//默认文件out隐含截断</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">close</span>();</span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">open</span>(<span class="string">"file1"</span>,ofstream::<span class="keyword">app</span>);  <span class="comment">//模式为输出和追加</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">close</span>();</span><br></pre></td></tr></table></figure>
+<p>通常情况下，out模式即意味着同时使用trunc模式，文件内容将被清空，打开file1文件时，指定了append模式，文件中已有的数据将会得到保留，所有写操作都会在文件末尾进行。</p>
+<h1 id="一、管理输出缓冲-1">一、管理输出缓冲</h1><p>每个输出流都会管理一个输出缓冲区，用来保存程序读写的数据。比如：<br>cout&lt;&lt;Please input a number&lt;&lt;endl;<br>这样文本串可能被立即打印出来，也可能先被操作系统保存到缓冲区，然后再打印。设备的写操作可能是费时的，这样，操作系统就可以将程序的多个输出操作组合成单一的系统级写操作或者单一的设备写操作可带来性能上的很大提升。<br>  下面总结了导致缓冲刷新的原因：</p>
+<ol>
+<li><p>程序正常结束，作为main函数的return操作的一部分，缓冲刷新被执行。</p>
+</li>
+<li><p>缓冲区满时需要刷新缓冲区之后新的数据才能被继续写入。</p>
+</li>
+<li><p>操纵符endl可以显示刷新缓冲区</p>
+</li>
+<li><p>在每个输出操作之后，可用操纵符unitbuf设置流的内部状态来清空缓冲区。默认情况下对cerr是设置unitbuf的，因此写到cerr的内容都是立即刷新的。</p>
+</li>
+<li><p>一个输出流可能被关联到另一个流。此时，当读写被关联的流时，关联到的流的缓冲区会被刷新。比如，默认情况下cin和cerr都关联到cout，因此，读cin或写cerr都会导致cout的缓冲区被刷新。</p>
+</li>
+</ol>
+<hr>
+<h1 id="二、刷新输出缓冲区-1">二、刷新输出缓冲区</h1><p>使用操纵符endl可以刷新缓冲区并完成换行工作。类似的flush也能刷新缓冲区，但不输出任何额外字符，不像endl那样还会换行。ends则是向缓冲区插入一个空字符，然后刷新缓冲区。他们的用法和endl一样。</p>
+<p>如果想在每次输出操作后都刷新缓冲区，可以使用unitbuf操纵符来设置流的内部状态清空缓冲区。它告诉流在接下来的每次输出写操作之后都进行一次flush操作，而nounitbuf操纵符则重置流，使其恢复使用正常的系统管理的缓冲区刷新机制：</p>
+<p>cout&lt;&lt;unitbuf;  //现在所有输出操作后都会立即刷新缓冲区<br>cout&lt;&lt;nounitbuf;  //恢复正常的缓冲方式<br>注：如果程序崩溃，输出缓冲区不会被刷新，所有输出数据很可能停留在输出缓冲区等待打印。<br>另外，当输入流被关联到输出流，那么一旦从输入流读取数据，都会先刷新关联的输出流。标准库将cout和cin关联在一起。</p>
+<p>所以当执行：</p>
+<p>cin&gt;&gt;ival;</p>
+<p>时，将导致cout的缓冲区被刷新。这在交互式系统通常应该关联输入流和输出流。即所有输出和用户提示信息都会在读操作之前被打印出来。说道关联输入和输出流，就要说道tie函数，它有两个版本，一个不带参数，返回指向输出流的指针，如果本对象当前关联到一个输出流，则返回这个输出流的指针，如过对象没有关联到流返回空指针。tie还一个版本接受一个指向ostream的指针，将自己关联到次ostream。比如 x.tie(&amp;o)即将流x关联到输出流o 。（&amp;o  这里是对输出流对象o取址）。我们可以将一个istream对象关联到一个ostream对象也可以将一个ostream对象关联到另一个ostream对象。</p>
+<p>cin.tie(&amp;cout);  //标准库中的将cin和cout关联在一起<br>如果想解开流的关联，可以将对象tie到一个空指针上，比如：<br>ostearm *old_tie=cin.tie(nullptr);  //cin不再与其他流关联</p>
+<hr>
+<h1 id="三、文件的输入输出-1">三、文件的输入输出</h1><h2 id="a-_IO-1">a. IO</h2><p>头文件fstrem中定义了三个支持文件IO</p>
+<ol>
+<li><p>ifstream 从给定文件读取数据</p>
+</li>
+<li><p>ofstream 向给定文件写入数据</p>
+</li>
+<li><p>fstream 读写给定文件</p>
+</li>
+</ol>
+<p>fstream继承自iostream，所以诸如IO运算符&lt;&lt;  &gt;&gt; cin cout getline等都能适用，另外它还有些新成员来管理与流关联的文件。当然这些时fstream中特有的，可以对fstream ifstream ofstream对象调用。总结如下</p>
+<ol>
+<li><p>fstream  fstrm;       创建一个未绑定的流，fstream是头文件fstream中定义的一个类型</p>
+</li>
+<li><p>fstream fstrm(s);   c创建一个fstream，并打开名为s的文件，s可是string类型或是一个指向C风格的字符串指针，这些构造函数是explict的</p>
+</li>
+<li><p>fstream fstrm(s,mode)  和以上一样，按指定的mode打开文件</p>
+</li>
+</ol>
+<p>fstrm.open(s)    打开名为s的文件，将文件与fstrm绑定，返回void</p>
+<p>fstrm.close()    关闭与fstrm绑定的文件，返回void</p>
+<p>fstrm.is_open()  返回一个bool值，指出绑定文件是否打开</p>
+<h2 id="b-使用文件流对象-1">b.使用文件流对象</h2><p>  当有需要读写一个文件时，我们可先定义一个文件流对象，并将对象与文件关联绑定。创建文件流对象时，我们可提供文件名（选用），如果提供了文件名open成员函数会被自动调用，比如：</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ifstream <span class="keyword">in</span>(ifile);  <span class="comment">//构造一个ifstream并打开给定文件</span></span><br><span class="line">ofstream <span class="keyword">out</span>;    <span class="comment">//这是一个输出文件流但还未关联到任何文件</span></span><br></pre></td></tr></table></figure>
+<p>我们已经知道，通常我们可以将一个派生类对象当做基类对象使用，因此，在需要iostream类型引用或指针的地方，我们也可用对应的fstream来调用。例如，假定输入输出文件名是通过传递给main函数的参数来指定，可以这样写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ifstream <span class="title">input</span><span class="params">(argv[<span class="number">1</span>])</span></span>;  <span class="comment">//打开文件，建立一个文件输入流对象input</span></span><br><span class="line"><span class="function">ofstream <span class="title">output</span><span class="params">(argv[<span class="number">2</span>])</span></span>;   <span class="comment">//打开输出文件，建立一个文件输出流对象output</span></span><br></pre></td></tr></table></figure>
+<p>再举一例：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifstream <span class="keyword">in</span>(ifile);  <span class="comment">//构建一个ifstream并打开给定文件</span></span><br><span class="line">ofstream <span class="keyword">out</span>;   <span class="comment">//构建了一个输出文件流，但没有与任何文件绑定</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">open</span>(ifile+<span class="string">".copy"</span>);  将流对象绑定指定文件并打开</span><br></pre></td></tr></table></figure>
+<p>像这里要是open失败了，failbit会被置位，调用open是有可能失败的，因为调用open时对它进行检测通常是一个好习惯，它和cin用作条件类似，open要是失败，条件会为假，就不会去使用out流了。比如：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">if</span><span class="params">(out)</span></span>   <span class="comment">//检查open是否成功，成功了，就可以使用文件了</span></span><br></pre></td></tr></table></figure>
+<p>一旦文件流打开，它就保持了与对应文件的关联，对一个已打开的文件流调用open会失败，并导致failbit被置位。随后任何试图使用文件流的操作都会失败。这和socket 、serial等一样啊。如果你想改变文件流关联的对象，那么必须先关闭当前已关联的文件，关闭成功后再去关联或者打开新的文件，比如：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">in</span>.<span class="built_in">close</span>();          <span class="comment"> //关闭当前关联的文件</span></span><br><span class="line"><span class="operator">in</span>.<span class="built_in">open</span>(ifile+<span class="string">"2"</span>);  打开另一个文件</span><br></pre></td></tr></table></figure>
+<p>一旦open成功，则open会设置流的状态，使得good()为true</p>
+<h2 id="c-自动构造和析构-1">c.自动构造和析构</h2><p> 任务：由main函数接受要处理的一个文件列表，考虑用循环的方式解决问题，实现如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(quto p=argv+<span class="number">1</span>:p!=argv+argc;++p)&#123;</span><br><span class="line">  <span class="function">ifstream <span class="title">input</span><span class="params">(*p)</span></span>;  <span class="comment">//创建文件输出流并打开文件</span></span><br><span class="line">  <span class="keyword">if</span>(input)&#123;         <span class="comment">//如果创建成功，处理文件</span></span><br><span class="line">      process(input);</span><br><span class="line">  &#125;<span class="keyword">else</span></span><br><span class="line">      <span class="built_in">cerr</span>&lt;&lt;<span class="string">"couldn't open: "</span>&lt;&lt;<span class="built_in">string</span>(*p);</span><br><span class="line">&#125;  <span class="comment">//每次循环后创建的input流对象会离开作用域，自动销毁</span></span><br></pre></td></tr></table></figure>
+<p>上面流对象在每次循环中都将被重新创建和销毁，当一个流对象离开其作用域时，与之关联的文件会自动关闭，即close会被自动调用。 </p>
+<hr>
+<h1 id="四、文件模式-1">四、文件模式</h1><p>  文件被open时会涉及文件模式，它指出如何来使用文件，总结如下；</p>
+<ol>
+<li>in  以读的方式打开文件 </li>
+<li><p>out  以写得方式打开文件</p>
+</li>
+<li><p>app  每次写操作前均定为到文件末尾</p>
+</li>
+<li><p>ate  打开文件后立即定为到文件末尾</p>
+</li>
+<li><p>trunc  截断文件</p>
+</li>
+<li><p>binary  以二进制方式进行IO<br>相关原则如下：</p>
+</li>
+<li><p>只能对ofstream或fstream对象设定out模式</p>
+</li>
+<li><p>只能对ifstrem或fstream对象设定in模式</p>
+</li>
+<li><p>只有当out也被设定时才能设定trunc模式</p>
+</li>
+<li><p>只要trunc没被设定，就可以设定app模式，在app模式下，即使没有显示指定out模式，文件也总是以输出方式被打开</p>
+</li>
+<li><p>默认情况，即使没有指定trunc，以out模式打开的文件也会被截断，为了保留以out模式打开的文件的内容，必须同时指定app模式，这样只会将数据追加写到文件末尾，或者同时指定in模式，即打开文件同时进行读写操作</p>
+</li>
+<li><p>每个文件流类型都定义了一个默认的文件模式，总结如下：</p>
+</li>
+</ol>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifstream——<span class="keyword">in</span>模式                         ofstream——<span class="keyword">out</span>模式</span><br><span class="line"></span><br><span class="line">fstream—— <span class="keyword">in</span> 和 <span class="keyword">out</span>模式</span><br></pre></td></tr></table></figure>
+<p>需要说明的是以out模式打开文件会丢弃已有的数据，默认情况下，打开一个ofstream时文件的内容会被丢弃，然而阻止这一清空给定文件的好办法就是打开的同时指定app模式。</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以下语句，file会被截断</span></span><br><span class="line">ofstream <span class="keyword">out</span>(<span class="string">"file1"</span>);  <span class="comment">//隐含以输出模式打开文件并截断文件</span></span><br><span class="line">ofstream <span class="keyword">out</span><span class="number">2</span>(<span class="string">"file1"</span>,ofstream::<span class="keyword">out</span>); <span class="comment">//隐含地截断文件</span></span><br><span class="line">ofstream <span class="keyword">out</span><span class="number">3</span>(<span class="string">"file1"</span>,ofstream::<span class="keyword">out</span> | ofstream::trunc)</span><br><span class="line"><span class="comment">//为了保留文件内容，我们必须显示指定app模式</span></span><br><span class="line">ofstream <span class="keyword">out</span>(<span class="string">"file"</span>,ofstream::app);  <span class="comment">//隐含为输出模式</span></span><br><span class="line">ofstream <span class="keyword">out</span><span class="number">2</span>(<span class="string">"file"</span>,ofstream::<span class="keyword">out</span> | ofstream::app);</span><br></pre></td></tr></table></figure>
+<p>总结：要想保留被ofstream打开的文件中已有数据的唯一方法就是显示的指定文件模式为in或app模式。<br>每次调用open时都会确定文件模式，对于一个给定的流，每次打开文件时都可以改变其文件模式，例如：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ofstream <span class="keyword">out</span>;   <span class="comment">//未指定文件打开模式</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">open</span>(<span class="string">"file"</span>);  <span class="comment">//默认文件out隐含截断</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">close</span>();</span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">open</span>(<span class="string">"file1"</span>,ofstream::<span class="keyword">app</span>);  <span class="comment">//模式为输出和追加</span></span><br><span class="line"><span class="keyword">out</span>.<span class="keyword">close</span>();</span><br></pre></td></tr></table></figure>
+<p>通常情况下，out模式即意味着同时使用trunc模式，文件内容将被清空，打开file1文件时，指定了append模式，文件中已有的数据将会得到保留，所有写操作都会在文件末尾进行。</p>
+<h1 id="一、string流简述">一、string流简述</h1><p>前面我们已经说道，标准库中定义IO类型的有三个头文件：iostream 定义； 用于读写流的基本类型，fstream定义了读写命名文件的类型，sstream定义了读写内存string对象的类型。其中在sstring头文件中定义了三个类型来支持内存IO，这些类型可以向string中写入数据，从string读取数据，就像string是一个IO流一样。</p>
+<p>相关列出如下：</p>
+<ol>
+<li><p>istringstream 从string读取数据。</p>
+</li>
+<li><p>ostringstream 向string写入数据。</p>
+</li>
+<li><p>stringstream 既可从string读取数据也可向string写数据。</p>
+</li>
+</ol>
+<p>和前面fstream一样，sstream也是继承自iostream，另外也有些新的东西假如，总结如下：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">sstream</span> <span class="keyword">strm; </span>       //<span class="keyword">strm是一个未绑定的stringstream对</span><br><span class="line"></span><span class="label">sstream</span> <span class="keyword">strm(s); </span>    //<span class="keyword">strm是一个sstream对象，保存string </span>s的一个拷贝，此构造函数explicit</span><br><span class="line"><span class="keyword">strm.str(); </span>         //返回<span class="keyword">strm所保存的string的拷贝</span><br><span class="line"></span><span class="keyword">strm.str(s); </span>        //将<span class="keyword">string </span>s拷贝到<span class="keyword">strm中，返回void</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>二、使用istringstream</p>
+<p>  当你想对整行文本进行处理，而其他一些工作时处理行内的单个单词时，通常使用istringstream。</p>
+<p>  任务：假如有一个文件，列出了一些人和他们的电话号码，某些人只有一个号码，而某些人则有多个：家庭电话，工作电话，移动电话。输入文件可能是这样;</p>
+<p>morgan  13332517100  </p>
+<p>drew    13336547895  13335247654</p>
+<p>jim     13336547126  13335647856 13335267865</p>
+<p>即文件中每条记录都以一个人名开始，后面跟若干个电话号码，我们可以先定定义一个数据结构来描述：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> PersonInfo&#123;</span><br><span class="line">  <span class="built_in">string</span> name;</span><br><span class="line">  <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; phonses;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>  有了这样一个结构后，我们可以创建一个PersonInfo的vector。vector中的每个元素对应文件中的一条记录。我们可通过循环读取数据，每个循环读取一条记录，然后提取个人姓名和电话号码信息，实现如下：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> <span class="built_in">line</span>,<span class="built_in">word</span>; <span class="comment"> //分别用来保存来自输入的一行和单词</span></span><br><span class="line">vector&lt;PersonInfo&gt; people; <span class="comment"> //保存来自输入的所有记录</span></span><br><span class="line"><span class="keyword">while</span>(getline(cin,<span class="built_in">line</span>))&#123;     <span class="comment"> //逐行读取数据直到cin遇到文件尾或者其它错误</span></span><br><span class="line">  PersonInfo info; <span class="comment"> //创建一个保存一条数据记录的PersonInfo对象</span></span><br><span class="line">  istringstream record(<span class="built_in">line</span>); <span class="comment"> //将记录绑定到刚读入的行信息</span></span><br><span class="line">  <span class="keyword">while</span>(record&gt;&gt;<span class="built_in">word</span>) <span class="comment"> //读取电话号码</span></span><br><span class="line">      info.phones.push_back(<span class="built_in">word</span>); <span class="comment"> //保持它们</span></span><br><span class="line">  people.push_back(info); <span class="comment"> //将此记录追加到people末尾</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  这里我们先用getline从标准输入读取整条记录（一行），然后将istringstream与该条记录进行绑定，现在我们就可以把该部分内存就像一个IO那样去使用它了，可实现在一个循环里，依次将数据读入构造一个PersonInfo对象，当string数据全部读出后，同样也会触发一个“文件结束”信号，退出循环，并将构造好的对象追加到vector中。</p>
+<hr>
+<h1 id="三、使用ostringstream">三、使用ostringstream</h1><p>  继续延续上面的例子，现在假如我们想逐个验证我们得到的用户电话号码并改变其输出格式：有效号码按规定输出到一个新文件，无效号码则是打印人名和无效号码的对应信息。因此，现在我们应该先针对每条记录先“写入”到一个内存ostringstream中，验证完所有电话号码后才进行输出操作。实现如下（程序中valid和format为假定已有的函数，分别完成电话号码的验证和改变格式的功能）：</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;entry:people)&#123;    <span class="comment">//对people中的每一项</span></span><br><span class="line">  ostringstream formatted,badNums;  <span class="comment">//每个循环步都创建的对象性</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;nums:entry.phonse)&#123;  <span class="comment">//对每条记录中的电话号码</span></span><br><span class="line">    <span class="keyword">if</span>(!valid(nums))&#123;</span><br><span class="line">      badNums&lt;&lt;<span class="string">" "</span>&lt;&lt;nums;  <span class="comment">//将数的字符串形式存入badNums</span></span><br><span class="line">    &#125;<span class="keyword">else</span></span><br><span class="line">        formatted&lt;&lt;<span class="string">" "</span>&lt;&lt;format(nums);  <span class="comment">//将格式化的字符串“写入”formatted</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(badNums.str().empty())                       <span class="comment">//没有错误的数</span></span><br><span class="line">     os&lt;&lt;entry.name&lt;&lt;<span class="string">" "</span>&lt;&lt;formatted.str()&lt;&lt;endl;   <span class="comment">//打印名字和格式化的数</span></span><br><span class="line">  <span class="keyword">else</span>  <span class="comment">//否则打印名字和错误的数</span></span><br><span class="line">     cerr&lt;&lt;<span class="string">"input error: "</span>&lt;&lt;entry.name</span><br><span class="line">         &lt;&lt;“ invalid number(s) <span class="string">"&lt;&lt;badNums.str()&lt;&lt;endl;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="四、总结">四、总结</h1><p>  总结来说：</p>
+<ol>
+<li><p>iostream处理控制台IO</p>
+</li>
+<li><p>fstream 处理命名文件IO</p>
+</li>
+<li><p>stringstream完成内存string的IO</p>
+</li>
+</ol>
+<p>后两者都继承自iostream，因此很大程度上都能执行一样的操作。</p>
+<p>另外，每个IO对象都还会维护一组条件状态，用来指出此对象上是否可进行IO操作或者遇到什么样的错误，标准库中提供一组函数，可用来设置和检测这些状态。</p>
+<p>一、格式化输入输出</p>
+<p>  除了条件状态每个iostream对象还维护着格式状态控制IO的格式化细节。比如：整型值得进制、浮点值得精度、输出元素的宽度等。</p>
+<p>1.1 用操纵符改变格式状态</p>
+<p>  操纵符是一个函数或者对象，会影响流的状态，并能用作输入或输出运算符的运算对象。比如操纵符endl，我们可以将它“写”到输出流，就像它是一个值一样，但它不是一个普通的值，而是一个操作，用于输出一个换行符并刷新缓冲区。</p>
+<p>  操纵符分为控制数值输出形式和控制补白数量和位置两大类。大多数改变格式状态的操纵符都是由 设置/复原 成对出现，其中复原是复原为默认格式。当操纵符改变流的格式状态时，通常改变后的状态对所有后续IO都生效。建议是最好在不需要特殊格式的时候尽快将流恢复到默认状态。</p>
+<p>1.1.1 控制布尔值的格式</p>
+<p>  操纵符改变对象的格式状态的典型是用boolalpha操纵符控制布尔值的显示格式，默认下bool值打印为1（true）或0（false），我们可以对流使用boolalpha操纵符来覆盖这种格式。而操纵符noboolalpha则可以帮助恢复默认格式。测试程序如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="built_in">cout</span> &lt;&lt; <span class="string">"default bool values: "</span> &lt;&lt; <span class="literal">true</span> &lt;&lt; <span class="string">" "</span> &lt;&lt; <span class="literal">false</span> &lt;&lt; endl</span><br><span class="line">     &lt;&lt; boolalpha </span><br><span class="line">     &lt;&lt;<span class="string">"aopha bool valuse: "</span> </span><br><span class="line">     &lt;&lt;<span class="literal">true</span> &lt;&lt; <span class="string">" "</span> &lt;&lt; <span class="literal">false</span> &lt;&lt;endl</span><br><span class="line">     &lt;&lt;<span class="string">"recover default bool values: "</span></span><br><span class="line">     &lt;&lt;noboolalpha                           <span class="comment">//通常情况下用完后恢复默认格式</span></span><br><span class="line">     &lt;&lt;<span class="literal">true</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;<span class="literal">false</span></span><br><span class="line">     &lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>1.1.2 控制整型值得进制</p>
+<p>  hex——十六进制输出</p>
+<p>  oct——八进制输出</p>
+<p>  dec——十进制 </p>
+<p>这些操纵符的用法和endl等一样。但要注意的是这三个只影响整型运算对象，对浮点值不受影响。</p>
+<p>1.1.3在输出中指出进制</p>
+<p>  默认格式状态下，在打印数值时不会显示进制，这时可使用showbase操纵符，规范如下：</p>
+<p>  前导 0x 表示十六进</p>
+<p>  前导 0  表示八进制</p>
+<p>  无前导表示十进制</p>
+<p>而noshowbase则恢复流状态，不再显示整型值得进制。提到十六进制，就涉及字母的大小写，默认格式状态是小写，我们可以使用操纵符uppercase使得字母大写，对应的nouppercase可使得字母恢复小写模式。于是类似：</p>
+<figure class="highlight"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  &#10;&#24120;&#29992;&#26469;&#20174;&#22823;&#20889;&#34920;&#31034;&#30340;&#21313;&#20845;&#36827;&#21046;&#24674;&#22797;&#21040;&#40664;&#35748;&#30340;&#21313;&#36827;&#21046;&#26684;&#24335;&#29366;&#24577;&#26174;&#31034;&#12290;&#10;&#10;&#10;1.1.4&#25511;&#21046;&#28014;&#28857;&#25968;&#26684;&#24335;&#10;&#10;  &#40664;&#35748;&#24773;&#20917;&#19979;&#65292;&#28014;&#28857;&#20540;&#25353;&#20845;&#20301;&#25968;&#23383;&#31934;&#24230;&#25171;&#21360;&#65292;&#22914;&#26524;&#27809;&#23567;&#25968;&#37096;&#20998;&#21017;&#19981;&#25171;&#21360;&#23567;&#25968;&#37096;&#20998;&#21253;&#25324;&#23567;&#25968;&#28857;&#65292;&#26681;&#25454;&#28014;&#28857;&#25968;&#30340;&#20540;&#36873;&#25321;&#25171;&#21360;&#25104;&#23450;&#28857;&#21313;&#36827;&#21046;&#25110;&#31185;&#23398;&#35745;&#25968;&#27861;&#24418;&#24335;&#65292;&#38750;&#24120;&#22823;&#25110;&#32773;&#38750;&#24120;&#23567;&#30340;&#20540;&#23558;&#25171;&#21360;&#25104;&#31185;&#23398;&#35745;&#25968;&#27861;&#65292;&#20854;&#20182;&#25171;&#21360;&#25104;&#23450;&#28857;&#21313;&#36827;&#21046;&#65292;&#20197;&#20445;&#35777;&#33391;&#22909;&#30340;&#21487;&#35835;&#24615;&#12290;&#10;&#10;  a.&#25351;&#23450;&#28014;&#28857;&#25968;&#25171;&#21360;&#31934;&#24230;&#10;&#10;  &#31934;&#24230;&#33021;&#25511;&#21046;&#25171;&#21360;&#30340;&#25968;&#23383;&#24635;&#25968;&#65292;&#25105;&#20204;&#21487;&#20197;&#36890;&#36807;&#35843;&#29992;IO&#23545;&#35937;&#30340;precision&#25104;&#21592;&#25110;&#20351;&#29992;setprecision&#25805;&#32437;&#31526;&#65288;&#23450;&#20041;&#22312;&#22836;&#25991;&#20214;iomanip&#20013;&#65289;&#26469;&#25913;&#21464;&#31934;&#24230;&#12290;precision&#25104;&#21592;&#20989;&#25968;&#26159;&#37325;&#36733;&#30340;&#65292;&#19968;&#20010;&#29256;&#26412;&#25509;&#21463;int&#20540;&#65292;&#33021;&#23558;&#31934;&#24230;&#35774;&#20026;&#35813;&#20540;&#65292;&#24182;&#36820;&#22238;&#26087;&#31934;&#24230;&#20540;&#65292;&#36824;&#19968;&#20010;&#29256;&#26412;&#19981;&#25509;&#21463;&#21442;&#25968;&#65292;&#36820;&#22238;&#24403;&#21069;&#31934;&#24230;&#20540;&#65292;setprecision&#25805;&#32437;&#31526;&#21017;&#25509;&#21463;&#19968;&#20010;&#21442;&#25968;&#29992;&#20110;&#35774;&#32622;&#31934;&#24230;&#12290;&#27979;&#35797;&#31243;&#24207;&#22914;&#19979;&#65306;</span><br></pre></td></tr></table></figure>
+<p>#include<iostream></iostream></p>
+<p>#include<iomanip><br>using namespace std;<br>int main(){<br>  cout &lt;&lt; “Default percision: “ &lt;&lt; cout.precision() &lt;&lt; “Value: “ &lt;&lt; sqrt(2) &lt;&lt; endl;<br>  cout &lt;&lt; “Set 12 percision with precision function: “ &lt;&lt; cout.precision(12) &lt;&lt; “ Value: “ &lt;&lt; sqrt(2)&lt;<endl; 3="" cout="" <<="" "set="" percision="" with="" setprecision:="" "="" setprecision(3)="" "value:="" sqrt(2)="" endl;="" }="" <figure="" class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">一、指定浮点数计数法</span><br><span class="line"></span><br><span class="line">  最佳实践：除非你需要控制浮点数的表示形式，比如按列打印数据或打印表示金额或百分比的数据），否则由标准库选择计数法是最好的方式。</span><br><span class="line"></span><br><span class="line">  同样的道理，通过使用操纵符可以控制流使用科学计数法、定点十进制或十六进制计数。这些操纵符总结如下：</span><br><span class="line"></span><br><span class="line">  scientific 改变流的状态使用科学计数法</span><br><span class="line"></span><br><span class="line">  fixed         改变流的状态使用定点十进制</span><br><span class="line"></span><br><span class="line">  hexfloat  强制浮点数使用十六进制格式</span><br><span class="line"></span><br><span class="line">  defaultfloat 将流恢复到默认状态（根据要打印的值选择计数法）</span><br><span class="line"></span><br><span class="line">-<span class="ruby">--</span><br><span class="line"></span></span><br><span class="line"></span><br><span class="line">二、打印小数点</span><br><span class="line"></span><br><span class="line">  默认情况当浮点值得小数部分为0时不显示小数点，showpoint操纵符强制打印小数点；noshowpoint则恢复默认行为。比如：</span><br></pre></td></tr></table></endl;></iomanip></p>
+<p>cout&lt;<showpoint<<10.0 <<noshowpoint<<endl;="" <figure="" class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-<span class="ruby">---</span><br><span class="line"></span></span><br><span class="line">三、输出补白</span><br></pre></td></tr></table></showpoint<<10.0></p>
+<p>setw  指定下一个数字或字符串值得最小空间，例：setw(12) 将在输出中至少流出12个位置供下一个输出占据</p>
+<p>  left  左对齐输出</p>
+<p>  right 右对齐输出，默认格式</p>
+<p>  interal  控制负数的符号的位置，左边符号对齐，右对值对齐，用空格填满所有中间空间</p>
+<p>setfii  允许指定一个字符代替默认的空格来补白输出。例：setfill(‘#’)<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">下面在来总结下定义在头文件iomanip中的操纵符，有：</span><br></pre></td></tr></table></figure></p>
+<p>setfill(ch)                            用字符ch填充空白</p>
+<p>setprecision(n)                 将浮点精度设置为n</p>
+<p>setw(w)                              读或者写值得宽度为w个字符</p>
+<p>setbase(b)                         将整数输出为b进制<br><figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-<span class="ruby">---</span><br><span class="line"></span></span><br><span class="line">四、控制输入格式</span><br><span class="line"></span><br><span class="line">  默认情况下，输入运算符会忽略空白符（空格符、制表符、换行符、回车符）而操纵符noskipws则会令输入运算符读取空白符而不是跳过，恢复默认行为则再使用skipws操纵符，比如：</span><br></pre></td></tr></table></figure></p>
+<p>char ch;<br>while(cin&gt;&gt;ch){<br>    cout&lt;<ch; <figure="" class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">输入：</span><br><span class="line">d</span><br><span class="line"></span><br><span class="line">循环执行 <span class="number">4</span>次</span><br></pre></td></tr></table></ch;></p>
+<p>cin&gt;&gt;noshipws;  //现在设置cin读取空白符<br>while(cin&gt;&gt;ch)<br>  cout&lt;<ch; cin="">&gt;skipws;  //将cin恢复到默认状态，丢弃空白符<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">和前一样用相同的输入时，循环会执行<span class="number">7</span>次（<span class="number">4</span>个普通字符，一个空格字符，一个制表符，一个回车符）</span><br><span class="line"></span><br><span class="line"><span class="comment">----</span></span><br><span class="line"></span><br><span class="line"> 五、未格式化的输入/输出操作</span><br><span class="line"></span><br><span class="line">  未格式化IO操作运允许我们将一个流当做一个无解释的字节序列来处理。比如我们可以使用未格式化IO操作<span class="keyword">get</span>和<span class="keyword">put</span>来读取和写入一个字符:</span><br></pre></td></tr></table></figure></ch;></p>
+<p>char ch;<br>while(cin.get(ch))<br>  cout.put(ch);<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这种未格式化的IO操作执行于底层操作之上，不会忽略任何字符。单字节底层IO操作总结如下：</span><br></pre></td></tr></table></figure></p>
+<p>is.get(ch)        从istream is流中读取下一个字节存入字符ch中，返回is流</p>
+<p>os.put(ch)        将字符ch输出到ostream os，返回os流</p>
+<p>is.get()          将is流的下一个字节作为int返回</p>
+<p>is.putback(ch)    将字符ch放回is流中，返回is</p>
+<p>is.unget()        将is向后移动一个字节，返回is流</p>
+<p>is.peek()         将下一个字节作为int返回，但不从流中删除它<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">六、将字符放回输入流</span><br><span class="line"></span><br><span class="line">  有三种方法：</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> peek方法返回输入流中下一个字符的副本，但不会将它从流中删除，peek返回的值仍然在流中</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> unget使得输入流向后移动一个字节</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> putback退回从流中读取的最后一个值，接受一个参数，但此参数必须与最后读取的值相同</span><br><span class="line"></span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">七、从输入操作返回的<span class="keyword">int</span>值</span><br><span class="line"></span><br><span class="line">  函数peek和无参的get都以<span class="keyword">int</span>类型从输入流返回一个字符。但为何不用<span class="keyword">char</span>显得更自然呢，原因是：返回<span class="keyword">int</span>可以返回文件尾标记，<span class="keyword">char</span>范围中的每个值表示一个真实字符，因此范围中没有额外的值可用来表示文件尾。返回<span class="keyword">int</span>的函数先将返回的字符转换为<span class="keyword">unsigned</span> <span class="keyword">char</span>，然后在将结果提升到<span class="keyword">int</span>。因此即使字符集中友字符映射到负值，这些操作返回的<span class="keyword">int</span>也是正值。而标准库使用负值表示文件尾，这样就可以保证与任何合法字符的值都不同。头文件cstdio定义了一个名为EOF的<span class="keyword">const</span>，可用来检测从get返回的值是否是文件尾，而不必记忆表示文件尾的实际数值。</span><br></pre></td></tr></table></figure></p>
+<p>int ch;  //使用一个int而不是一个char来保存get()的返回值<br>while( (ch=cin.get() )!=EOF)<br>  cout.put(ch);<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="header">  </span><br><span class="line">----</span></span><br><span class="line"></span><br><span class="line">八、多字节操作</span><br><span class="line"></span><br><span class="line"><span class="code">  如果速度是考虑的重点，那么使用未格式化IO操作一次处理大块数据是很有必要的。总结如下：</span></span><br><span class="line"></span><br><span class="line">is.get(sink,size,delim)</span><br><span class="line"></span><br><span class="line"><span class="code">  从is流中最多读取size个字节，并保存在字符数组中，字符数组的起始地址由sink给出，读取过程直至遇到字符delim或读取了size个字节或遇到文件尾时停止。如果遇到的是delim，则将其留在输入流中，不读取出来存入sink中。</span></span><br></pre></td></tr></table></figure></p>
+<p>is.getline(sink,size,delim);           //和上述get类似<br>is.read(sink,size);                //读取最多size个字节，存入字符数组sink中，返回is流<br>is.gcount();               //返回上一个未格式化读取操作从is读取的字节数<br>os.write(source,size);     //将字符数组source中的size个字节写入os，返回os<br>is.ignore(size,delim);     //读取并忽略最多size个字符，包括delim，与其他未格式化函数不同，ignore有默认参数，size默认值为1,delim的默认值为文件尾。<br>get和getline有类似的行为，差别在于get将分隔符留作istream中的下一个字符，而getline则读取并丢弃分隔符。无论哪个函数都不会将分隔符保存在sink中。<br>```</p>
+<hr>
+<p>九、确定读取了多少个字符</p>
+<p>某些操作从输入读取未知个数的字节，可以调用gcount来确定最后一个未格式化输入操作读取了多少个字符。将字符退回流的单字符操作也属于未格式化输入操作。如果在调用gcout之前调用了peek、unget或putback，则gcount的返回值为0 。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/c/" rel="tag">#c++</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/13/快速排序/" rel="prev">快速排序</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/17/(转)1.一个简单的博客/" rel="next">(转)1.一个简单的博客</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Hang Weiping" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Hang Weiping</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">人只有无限努力</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank">github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、管理输出缓冲"><span class="nav-number">1.</span> <span class="nav-text">一、管理输出缓冲</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、刷新输出缓冲区"><span class="nav-number">2.</span> <span class="nav-text">二、刷新输出缓冲区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、文件的输入输出"><span class="nav-number">3.</span> <span class="nav-text">三、文件的输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-_IO"><span class="nav-number">3.1.</span> <span class="nav-text">a. IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-使用文件流对象"><span class="nav-number">3.2.</span> <span class="nav-text">b.使用文件流对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-自动构造和析构"><span class="nav-number">3.3.</span> <span class="nav-text">c.自动构造和析构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、文件模式"><span class="nav-number">4.</span> <span class="nav-text">四、文件模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、管理输出缓冲-1"><span class="nav-number">5.</span> <span class="nav-text">一、管理输出缓冲</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、刷新输出缓冲区-1"><span class="nav-number">6.</span> <span class="nav-text">二、刷新输出缓冲区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、文件的输入输出-1"><span class="nav-number">7.</span> <span class="nav-text">三、文件的输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-_IO-1"><span class="nav-number">7.1.</span> <span class="nav-text">a. IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-使用文件流对象-1"><span class="nav-number">7.2.</span> <span class="nav-text">b.使用文件流对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-自动构造和析构-1"><span class="nav-number">7.3.</span> <span class="nav-text">c.自动构造和析构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、文件模式-1"><span class="nav-number">8.</span> <span class="nav-text">四、文件模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一、string流简述"><span class="nav-number">9.</span> <span class="nav-text">一、string流简述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、使用ostringstream"><span class="nav-number">10.</span> <span class="nav-text">三、使用ostringstream</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、总结"><span class="nav-number">11.</span> <span class="nav-text">四、总结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hang Weiping</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="">Hexo</a> 驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="">
+    Next
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+  
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
