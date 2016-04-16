@@ -333,7 +333,17 @@
 
       
         
-          <h1 id="一、管理输出缓冲">一、管理输出缓冲</h1><p>每个输出流都会管理一个输出缓冲区，用来保存程序读写的数据。比如：<br>cout&lt;&lt;Please input a number&lt;&lt;endl;<br>这样文本串可能被立即打印出来，也可能先被操作系统保存到缓冲区，然后再打印。设备的写操作可能是费时的，这样，操作系统就可以将程序的多个输出操作组合成单一的系统级写操作或者单一的设备写操作可带来性能上的很大提升。</p>
+          <h2 id="常见IO设施概述">常见IO设施概述</h2><p>常用的IO设施<br>&gt;</p>
+<ol>
+<li>istream  输入流类型，提供输入操作  </li>
+<li>ostream 输出流类型，提供输出操作  </li>
+<li>cin 一个istream对象，从标准输入读取数据  </li>
+<li>cout 一个ostream对象，向标准输出写入数据  </li>
+<li>cerr 一个ostream对象，用于输出程序错误信息，写入到标准错误  </li>
+<li><strong>&gt;&gt;</strong>运算符，从一个istrem对象读取输入数据  </li>
+<li>&lt;&lt;运算符，向一个ostream对象写入输出数据  </li>
+<li>getling函数，从一个给定的istream读取一行数据，存入给定的string对象中  </li>
+</ol>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/10/18/c++ io库/#more" rel="contents">
               阅读全文 &raquo;
